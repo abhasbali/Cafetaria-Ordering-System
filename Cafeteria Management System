@@ -1,0 +1,164 @@
+#include <stdio.h>
+
+int r = 0;
+
+void menu() {
+    printf("Menu Card\n");
+    printf("-------------------------------------------------------------------------\n");
+    printf(" BEVARAGES\n");
+    printf("----------------------------------\n");
+    printf(" 26 Dal Fry................ 140.00\n");
+    printf(" 27 Dal Makhani............ 150.00\n");
+    printf("  1 Regular Tea............. 20.00\n");
+    printf("  2 Masala Tea.............. 25.00\n");
+    printf("  3 Coffee.................. 25.00\n");
+    printf("  4 Cold Drink.............. 25.00\n");
+    printf("  5 Bread Butter............ 30.00\n");
+    printf("  6 Bread Jam............... 30.00\n");
+    printf("  7 Veg. Sandwich........... 50.00\n");
+    printf("  8 Veg. Toast Sandwich..... 50.00\n");
+    printf("  9 Cheese Toast Sandwich... 70.00\n");
+    printf(" 10 Grilled Sandwich........ 70.00\n");
+    printf(" ----------------------------------\n");
+    printf(" INDIAN BREADS\n");
+    printf("----------------------------------\n");
+    printf(" 29 Plain Roti.............. 15.00\n");
+    printf(" 30 Butter Roti............. 15.00\n");
+    printf(" 31 Tandoori Roti........... 20.00\n");
+    printf(" 32 Butter Naan............. 20.00\n");
+    printf(" ----------------------------------\n");
+    printf(" RICE\n");
+    printf("----------------------------------\n");
+    printf(" 33 Plain Rice.............. 90.00\n");
+    printf(" 34 Jeera Rice.............. 90.00\n");
+    printf(" 35 Veg Pulao.............. 110.00\n");
+    printf(" 36 Peas Pulao............. 110.00\n");
+    printf(" ----------------------------------\n");
+    printf(" SOUPS\n");
+    printf("----------------------------------\n");
+    printf(" 37 Tomato Soup............ 110.00\n");
+    printf(" 38 Hot & Sour............. 110.00\n");
+    printf(" 39 Veg. Noodle Soup....... 110.00\n");
+    printf(" 40 Sweet Corn............. 110.00\n");
+    printf(" 41 Veg. Manchow........... 110.00\n");
+    printf(" ----------------------------------\n");
+    printf(" SOUTH INDIAN\n");
+    printf("----------------------------------\n");
+    printf(" 42 Plain Dosa............. 100.00\n");
+    printf(" 43 Onion Dosa............. 110.00\n");
+    printf(" 44 Masala Dosa............ 130.00\n");
+    printf(" 45 Paneer Dosa............ 130.00\n");
+    printf(" 46 Idli(4PCS)............. 130.00\n");
+    printf(" 47 Sambhar Vada........... 140.00\n");
+    printf(" ----------------------------------\n");
+    printf(" ICE CREAM\n");
+    printf("----------------------------------\n");
+    printf(" 48 Vanilla................. 60.00\n");
+    printf(" 49 Strawberry.............. 60.00\n");
+    printf(" 50 Pineapple............... 60.00\n");
+    printf(" 51 Butter Scotch........... 60.00\n");
+    printf("Press 0 -to end \n");
+}
+
+void order() {
+    int ch = 1;
+    int rs = 0;
+    while (ch != 0) {
+        printf(" ->Enter your selected item :");
+        scanf("%d", &ch);
+        FILE *file = fopen("bill.txt", "a");
+        fprintf(file, "SELECTED ITEM:%d\n", ch);
+        fclose(file);
+        if (ch == 1 || ch == 31 || ch == 32) {
+            rs = 20;
+            r = r + rs;
+        } else if (ch >= 2 && ch <= 4) {
+            rs = 25;
+            r = r + rs;
+        } else if (ch >= 5 && ch <= 6) {
+            rs = 30;
+            r = r + rs;
+        } else if (ch >= 7 && ch <= 8) {
+            rs = 50;
+            r = r + rs;
+        } else if (ch >= 9 && ch <= 10) {
+            rs = 70;
+            r = r + rs;
+        } else if ((ch >= 11 && ch <= 17) || ch == 35 || ch == 36 || ch == 38) {
+            rs = 110;
+            r = r + rs;
+        } else if (ch >= 18 && ch <= 19) {
+            rs = 120;
+            r = r + rs;
+        } else if ((ch >= 20 && ch <= 26) || ch == 42) {
+            rs = 140;
+            r = r + rs;
+        } else if (ch >= 27 && ch <= 28) {
+            rs = 150;
+            r = r + rs;
+        } else if (ch >= 29 && ch <= 30) {
+            rs = 15;
+            r = r + rs;
+        } else if (ch == 31 || ch == 32) {
+            rs = 80;
+            r = r + rs;
+        } else if (ch == 33 || ch == 34) {
+            rs = 90;
+            r = r + rs;
+        } else if (ch == 37) {
+            rs = 100;
+            r = r + rs;
+        } else if (ch >= 39 && ch <= 41) {
+            rs = 130;
+            r = r + rs;
+        } else if (ch >= 43 && ch <= 46) {
+            rs = 60;
+            r = r + rs;
+        } else if (ch == 0) {
+            continue;
+        } else {
+            printf("Wrong Choice..!!\n");
+        }
+    }
+}
+
+void bill() {
+    FILE *file = fopen("bill.txt", "a");
+    if (file == NULL) {
+        printf("Error opening file for writing\n");
+        return;
+    }
+    fprintf(file, "Total Bill: %d\n", r);
+    fprintf(file, "-------------------------------------------------\n");
+    fprintf(file, "TOTAL AMOUNT TO BE PAID: RS-->%d\n", r);
+    fclose(file);
+    printf("THE TOTAL AMOUNT TO BE PAID IS : RS.%d\n", r);
+}
+
+void end() {
+    printf("THANK YOU!!!!! \nVISIT AGAIN!!!!!\n");
+}
+
+int main() {
+    int choice = -1;
+    printf("-------------------------------------------------------------------------\n");
+    printf("THE CAFE LATTE \n");
+    printf("-------------------------------------------------------------------------\n");
+    while (choice != 0) {
+        printf("PRESS \n 1. TO GET THE MENU \n 2. TO ORDER FOOD \n 3. TO GET THE BILL \n 0. TO EXIT \n");
+        scanf("%d", &choice);
+        if (choice == 1) {
+            menu();
+        } else if (choice == 2) {
+            order();
+        } else if (choice == 3) {
+            bill();
+        } else if (choice == 0) {
+            break;
+        } else {
+            printf("WRONG CHOICE!!!!!\n");
+        }
+    }
+    end();
+    return 0;
+}
